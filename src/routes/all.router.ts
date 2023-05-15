@@ -7,13 +7,19 @@ import * as AuthCntl from '../auth/controllers/auth.controller'
 
 // Middleware Token
 import { verifyToken } from '../libs/verify.token'
+import * as authVerify from '../libs/auth.verify'
 
 /* Routes the Users */
-router.get('/users', UserCntl.getAllUSer)
+router.get('/users', 
+	UserCntl.getAllUSer)
+
 router.get('/users/:id', UserCntl.getUserById)
 router.post('/users', UserCntl.store)
 router.put('/users/:id', UserCntl.updateUser)
-router.delete('/users/:id', verifyToken, UserCntl.deleteUser)
+
+router.delete('/users/:id', 
+	[verifyToken, authVerify.isAdmin], 
+	UserCntl.deleteUser)
 
 
 // Auth

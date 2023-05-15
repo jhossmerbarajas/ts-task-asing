@@ -1,5 +1,6 @@
 import { Entity, Column } from 'typeorm'
 import { BaseEntity } from '../../config/base.entity'
+import { RoleType } from '../dto/user.dto'
 
 @Entity({ name: "user" })
 export class UserEntity extends BaseEntity{
@@ -21,5 +22,12 @@ export class UserEntity extends BaseEntity{
 		nullable: false,
 	})
 	password!: string
+
+	@Column({
+		type: "enum",
+		enum: RoleType,
+		nullable: false
+	})
+	role!: RoleType 
 
 }

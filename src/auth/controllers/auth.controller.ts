@@ -12,7 +12,7 @@ export const login = async (req: Request, res: Response) => {
 		const passCompare = await bcrypt.compare(req.body.password, user.password)
 		if(!passCompare) return res.json({ msg: "Contraseña incorrecta" })
 
-		const token: string = jwt.sign({id: user.id}, process.env.TOKEN_SECRET || "jhossweb")
+		const token: string = jwt.sign({id: user.id}, process.env.TOKEN_SECRET || "jhossweb", { expiresIn: 86400 })
 
 		return res.header("auth-token", token).json(user)
 	} catch (e) {
