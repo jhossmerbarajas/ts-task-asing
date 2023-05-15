@@ -52,7 +52,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 	const idUser = Number(id)
 
 	try {
-		const userDelete: DeleteResult = await UserSrv.updateUser(idUser, req.body)
+		const userDelete: DeleteResult = await UserSrv.deleteUser(idUser)
 		if(!userDelete.affected) return res.json({ msg: "No se pudo eliminar datos" })
 
 		return res.json(userDelete)

@@ -15,6 +15,14 @@ export const getUserById = async (id: number): Promise<UserEntity | null> => {
 					.findOneBy({ id })
 }
 
+export const getUserByUsername = async (username: string): Promise<UserEntity | null> => {
+	return await AppDataSource
+					.getRepository(UserEntity)
+					.createQueryBuilder('user')
+					.where({ username })
+					.getOne()
+}
+
 export const createUser = async (data: UserDTO): Promise<UserEntity> => {
 	const repository = AppDataSource.getRepository(UserEntity)
 	const newUser = await repository.create(data)
