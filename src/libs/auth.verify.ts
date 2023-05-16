@@ -17,3 +17,20 @@ export const isAdmin = async (req: Request, res: Response, next: NextFunction) =
 		return res.json(e)
 	}
 }
+
+export const isUser = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const user = await UserSrv.getUserById(req.userId)
+		if(!user) return res.json({ msg: "no se encontró usuario" })
+
+		if(user.role === "USER") {
+			next()
+			return
+		}
+
+		return res.json({ msg: "requiere ser usuario" })
+
+	} catch (e) {
+		return res.json(e)
+	}
+}

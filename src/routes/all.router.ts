@@ -13,9 +13,17 @@ import * as authVerify from '../libs/auth.verify'
 router.get('/users', 
 	UserCntl.getAllUSer)
 
-router.get('/users/:id', UserCntl.getUserById)
-router.post('/users', UserCntl.store)
-router.put('/users/:id', UserCntl.updateUser)
+router.get('/users/:id', 
+	[verifyToken, authVerify.isAdmin],
+	UserCntl.getUserById)
+
+router.post('/users', 
+	[verifyToken, authVerify.isAdmin],
+	UserCntl.store)
+
+router.put('/users/:id', 
+	[verifyToken, authVerify.isAdmin, authVerify.isUser],
+	UserCntl.updateUser)
 
 router.delete('/users/:id', 
 	[verifyToken, authVerify.isAdmin], 
@@ -24,5 +32,8 @@ router.delete('/users/:id',
 
 // Auth
 router.post('/auth', AuthCntl.login)
+
+
+
 
 export default router
