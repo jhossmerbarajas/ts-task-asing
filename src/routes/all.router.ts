@@ -4,6 +4,7 @@ const router: Router = Router()
 // Controllers
 import * as UserCntl from '../users/controllers/user.controller'
 import * as AuthCntl from '../auth/controllers/auth.controller'
+import * as TaskCntl from '../tasks/controllers/task.controller'
 
 // Middleware Token
 import { verifyToken } from '../libs/verify.token'
@@ -34,6 +35,8 @@ router.delete('/users/:id',
 router.post('/auth', AuthCntl.login)
 
 
-
+// Task
+router.get('/task', TaskCntl.getAllTaskController)
+router.post('/tasks', TaskCntl.createTaskController)
 
 export default router
