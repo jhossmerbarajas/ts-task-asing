@@ -15,6 +15,21 @@ export const getUserById = async (id: number): Promise<UserEntity | null> => {
 					.findOneBy({ id })
 }
 
+export const getUserWithTask = async (id: number): Promise<UserEntity | null> => {
+	return await AppDataSource.getRepository(UserEntity)
+					.createQueryBuilder('user')
+					.leftJoinAndSelect('user.tasks', 'tasks')
+					.where({ id })
+					.getOne()
+}
+
+export const getAllUserWithTask = async (): Promise<UserEntity[]> => {
+	return await AppDataSource.getRepository(UserEntity)
+					.createQueryBuilder('user')
+					.leftJoinAndSelect('user.tasks', 'tasks')
+					.getMany()
+} 
+
 export const getUserByUsername = async (username: string): Promise<UserEntity | null> => {
 	return await AppDataSource
 					.getRepository(UserEntity)
