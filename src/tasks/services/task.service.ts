@@ -1,27 +1,36 @@
+import { UpdateResult } from 'typeorm'
 import { AppDataSource } from '../../config/data-source'
 import { TaskEntity } from '../entities/task.entity'
 import { TaskDTO } from '../dto/task.dto'
 
+
 import { UserEntity } from '../../users/entities/user.entity'
 import { getUserById } from '../../users/services/user.service'
+
+
+interface ITaskStatus {
+	status: boolean
+}
 
 export const getAllTask = async (): Promise<TaskEntity[]> => {
 	return await AppDataSource.getRepository(TaskEntity).find()
 }
 
-export const getAllTaskWithUser = async (): Promise<TaskEntity[]> => {
+
+export const getTaskWithUser = async (id: number): Promise<TaskEntity[]> => {
 	return await AppDataSource.getRepository(TaskEntity)
 					.createQueryBuilder('task')
-					.leftJoinAndSelect('task.user', 'user')
+					.leftJoinAndSelect('task.user_id', 'user')
+					.where({ id })
 					.getMany()
 }
 
-export const getTaskWithUser = async (id: number): Promise<TaskEntity | null> => {
-	return await AppDataSource.getRepository(TaskEntity)
-					.createQueryBuilder('task')
-					.leftJoinAndSelect('task.user', 'user')
-					.where({ id })
-					.getOne()
+export const getTaskWithTrue =  async (): Promise<TaskEntity[]> => {
+	return await AppDataSource.getRepository(TaskEntity).find({ where: { status: true } })
+}
+
+export const getTaskWithFalse =  async (): Promise<TaskEntity[]> => {
+	return await AppDataSource.getRepository(TaskEntity).find({ where: { status: false } })
 }
 
 export const createdTask = async (user_asing:number, data: TaskDTO): Promise<TaskEntity> => {
@@ -35,8 +44,16 @@ export const createdTask = async (user_asing:number, data: TaskDTO): Promise<Tas
 
 	const idUserAsing = await getUserById(user_asing)
 	task.user_asing = idUserAsing as UserEntity
-	console.log(task)
 	
 	
 	return await repository.save(task)
 } 
+
+export const updatedTask = async (id: number, status: boolean): Promise<UpdateResult> => {
+	return await AppDataSource.getRepository(TaskEntity)
+							.createQueryBuilder()
+							.update(TaskEntity)
+							.set({ status })
+							.where({ id })
+							.execute()							
+}

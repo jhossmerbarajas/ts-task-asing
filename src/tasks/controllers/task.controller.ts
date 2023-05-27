@@ -11,21 +11,30 @@ export const getAllTaskController = async (req: Request, res: Response) => {
 	}
 }
 
-export const getAllTaskWithUserController = async (re: Request, res: Response) => {
+export const getTaskWithUserController = async (req: Request, res: Response) => {
+	
+	const idTask = Number(req.userId)
+	
 	try {
-		const taskUSer = await taskSrv.getAllTaskWithUser()
-		return res.json(taskUSer)
-	} catch(e) {
+		const task = await taskSrv.getTaskWithUser(idTask)
+		return res.json(task)
+	} catch (e) {
 		return res.json(e)
 	}
 }
 
-export const getTaskWithUserController = async (req: Request, res: Response) => {
-	const { id } = req.params
-	const idTask = Number(id)
-	
+export const getTaskWithTrueController = async (req: Request, res: Response) => {
 	try {
-		const task = await taskSrv.getTaskWithUser(idTask)
+		const task = await taskSrv.getTaskWithTrue()
+		return res.json(task)
+	} catch (e) {
+		return res.json(e)
+	}
+}
+
+export const getTaskWithFalseController = async (req: Request, res: Response) => {
+	try {
+		const task = await taskSrv.getTaskWithFalse()
 		return res.json(task)
 	} catch (e) {
 		return res.json(e)
@@ -42,5 +51,17 @@ export const createTaskController = async (req: Request, res: Response) => {
 		return res.json(task)
 	} catch (e) {
 		return res.json(e)
+	}
+}
+
+export const updateTaskController = async (req: Request, res: Response) => {
+	const { id } = req.params
+	const idTask = Number(id)
+	
+	try {
+		const taskUpdate = await taskSrv.updatedTask(idTask, req.body.status)
+		return res.json(taskUpdate)
+	} catch(e) {
+		console.error(e)
 	}
 }

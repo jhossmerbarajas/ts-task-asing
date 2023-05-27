@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsBoolean } from 'class-validator'
 import { BaseDTO } from '../../config/base.dto'
 
 import { UserEntity } from '../../users/entities/user.entity'
@@ -12,7 +12,8 @@ export class TaskDTO extends BaseDTO
 	description!: string
 
 	@IsNotEmpty()
-	check!: boolean
+	@IsBoolean()
+	status!: boolean
 	
 	@IsNotEmpty()
 	user_id!: UserEntity

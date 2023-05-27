@@ -25,25 +25,18 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 }
 
 export const getUserWithTaskController = async (req: Request, res: Response) => {
-	const { id } = req.params
-	const idUser = Number(id)
+	console.log(req.userId)
+	const idUser = Number(req.userId)
 
 	try {
 		const userTask = await UserSrv.getUserWithTask(idUser)
+		console.log(userTask)
 		return res.json(userTask)
 	} catch (e) {
 		return res.json(e)
 	}
 }
 
-export const getAllUserWithTaskController = async (req: Request, res: Response) => {
-	try {
-		const userTask = await UserSrv.getAllUserWithTask()
-		return res.json(userTask)
-	} catch (e){
-		return res.json(e)
-	}
-}
 
 export const storeController = async  (req: Request, res: Response) => {
 	try {

@@ -14,11 +14,9 @@ import * as authVerify from '../libs/auth.verify'
 router.get('/users',
 	UserCntl.getAllUSerController)
 
-router.get('/usersTask/:id', 
+router.get('/userTask', 
+	[verifyToken, authVerify.isUser],
 	UserCntl.getUserWithTaskController)
-
-router.get('/usersTasks', 
-	UserCntl.getAllUserWithTaskController)
 
 router.get('/users/:id', 
 	[verifyToken, authVerify.isAdmin],
@@ -43,16 +41,27 @@ router.post('/auth', AuthCntl.login)
 
 // Task
 router.get('/tasks', 
+	[verifyToken, authVerify.isAdmin],
 	TaskCntl.getAllTaskController)
 
-router.get('/tasks/:id', 
+router.get('/taskUser',
+	[verifyToken, authVerify.isUser],
 	TaskCntl.getTaskWithUserController)
 
-router.get('/taskUser',
-	TaskCntl.getAllTaskWithUserController)
+router.get('/taskTrue',
+	[verifyToken, authVerify.isAdmin, authVerify.isUser],
+	TaskCntl.getTaskWithTrueController)
+
+router.get('/taskFalse',
+	[verifyToken, authVerify.isAdmin, authVerify.isUser],
+	TaskCntl.getTaskWithFalseController)
 
 router.post('/tasks', 
 	[verifyToken, authVerify.isAdmin], 
 	TaskCntl.createTaskController)
+
+router.patch('/tasks/:id',
+	[verifyToken, authVerify.isUser],
+	TaskCntl.updateTaskController)
 
 export default router

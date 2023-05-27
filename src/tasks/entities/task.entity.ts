@@ -16,10 +16,9 @@ export class TaskEntity extends BaseEntity
 	description!: string
 
 	@Column({
-		type: "boolean",
 		default: false
 	})
-	check!: boolean
+	status!: boolean
 
 	// Usuario a quien le asignan la tarea
 	@ManyToOne( () => UserEntity, (user) => user.tasks )
