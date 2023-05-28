@@ -8,10 +8,6 @@ import { UserEntity } from '../../users/entities/user.entity'
 import { getUserById } from '../../users/services/user.service'
 
 
-interface ITaskStatus {
-	status: boolean
-}
-
 export const getAllTask = async (): Promise<TaskEntity[]> => {
 	return await AppDataSource.getRepository(TaskEntity).find()
 }

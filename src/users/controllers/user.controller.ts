@@ -30,7 +30,6 @@ export const getUserWithTaskController = async (req: Request, res: Response) => 
 
 	try {
 		const userTask = await UserSrv.getUserWithTask(idUser)
-		console.log(userTask)
 		return res.json(userTask)
 	} catch (e) {
 		return res.json(e)
