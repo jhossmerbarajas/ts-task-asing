@@ -3,7 +3,7 @@ import { UpdateResult, DeleteResult } from 'typeorm'
 
 import * as UserSrv from '../services/user.service'
 
-export const getAllUSer = async  (req: Request, res: Response) => {
+export const getAllUSerController = async  (req: Request, res: Response) => {
 	try {
 		const user = await UserSrv.getAllUser()
 		return res.json(user)
@@ -12,7 +12,7 @@ export const getAllUSer = async  (req: Request, res: Response) => {
 	}
 }
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserByIdController = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const idUser = Number(id)
 
@@ -24,7 +24,21 @@ export const getUserById = async (req: Request, res: Response) => {
 	}
 }
 
-export const store = async  (req: Request, res: Response) => {
+export const getUserWithTaskController = async (req: Request, res: Response) => {
+	console.log(req.userId)
+	const idUser = Number(req.userId)
+
+	try {
+		const userTask = await UserSrv.getUserWithTask(idUser)
+		console.log(userTask)
+		return res.json(userTask)
+	} catch (e) {
+		return res.json(e)
+	}
+}
+
+
+export const storeController = async  (req: Request, res: Response) => {
 	try {
 		const user = await UserSrv.createUser(req.body)
 		return res.json(user)
@@ -33,7 +47,7 @@ export const store = async  (req: Request, res: Response) => {
 	}
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUserController = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const idUser = Number(id)
 
@@ -47,7 +61,7 @@ export const updateUser = async (req: Request, res: Response) => {
 	}
 }
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUserController = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const idUser = Number(id)
 
